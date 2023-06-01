@@ -29,12 +29,12 @@ std::pair<int, int> minimax(Board& board, int depth, bool Max, int d) {
 					}
 				}
 				if(Max) {
-					if(ev > bestev || best == -1) {
+					if(ev > bestev) {
 						bestev = ev;
 						best = i;
 					}
 				} else {
-					if(ev < bestev || best == -1) {
+					if(ev < bestev) {
 						bestev = ev;
 						best = i;
 					}
@@ -43,5 +43,5 @@ std::pair<int, int> minimax(Board& board, int depth, bool Max, int d) {
 			board.unmove();
 		}
 	}
-	return {bestev, best};
+	return {best==-1?0:bestev, best};
 }

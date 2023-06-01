@@ -4,18 +4,14 @@
 #include <ostream>
 #include <iostream>
 #include <vector>
+#include <string>
 
 class Board {
 	public:
 		static const int HEIGHT = 6, WIDTH = 7;
-		Board() {
-			for(auto& r: board) {
-				for(auto& c: r)
-					c = ' ';
-			}
-			for(auto& e: empty)
-				e = HEIGHT;
-		}
+		Board();
+		Board(std::string pos);
+		bool load(std::string pos);
 		void print(std::ostream& os = std::cout);
 		bool move(int c, char p);
 		bool unmove();

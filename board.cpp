@@ -1,5 +1,34 @@
 #include "board.hpp"
 
+Board::Board() {
+	for(auto& r: board) {
+		for(auto& c: r)
+			c = ' ';
+	}
+	for(auto& e: empty)
+		e = HEIGHT;
+}
+
+Board::Board(std::string pos) {
+	if(!this->load(pos)) {
+		throw std::invalid_argument("Invalid position");
+	}
+}
+
+bool Board::load(std::string pos) {
+	if(pos.size() != WIDTH*HEIGHT+HEIGHT-1)
+		return false;
+	int idx = 0;
+	for(int i = 0; i < HEIGHT; i++, idx++) {
+		for(int j = 0; j < WIDTH; j++, idx++) {
+			board[i][j] = pos[idx]=='.'?' ':pos[idx];
+		}
+		if(idx != pos.size() && pos[idx] != '/')
+			return false;
+	}
+	return true;
+}
+
 void Board::print(std::ostream& os) {
 	for(int i = 0; i < WIDTH; i++) {
 		os << i+1 << ' ';

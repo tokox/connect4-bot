@@ -165,7 +165,64 @@ TEST(eval, slash)
 	EXPECT_EQ(eval(board), 0);
 }
 
-TEST(minimax, 1)
+TEST(load, all)
+{
+	Board board("......./......./......./P.C.AD./P.ADCA./PAPDCD.");
+	std::stringstream ss;
+	board.print(ss);
+	std::string r = "1 2 3 4 5 6 7 \n"
+			"              \n"
+			"              \n"
+			"              \n"
+			"P   C   A D   \n"
+			"P   A D C A   \n"
+			"P A P D C D   \n";
+	EXPECT_EQ(r, ss.str());
+}
+
+TEST(minimax, easy_10)
+{
+	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
+	EXPECT_EQ(minimax(board, 10).first, 1);
+}
+
+TEST(minimax, startpos_0)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 0).first, 0);
+}
+
+TEST(minimax, startpos_1)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 1).first, 0);
+}
+
+TEST(minimax, startpos_2)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 2).first, 0);
+}
+
+TEST(minimax, startpos_5)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 5).first, 0);
+}
+
+TEST(minimax, startpos_10)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 10).first, 0);
+}
+
+TEST(minimax, startpos_21)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 21).first, 0);
+}
+
+TEST(minimax, startpos_max)
 {
 	Board board;
 	EXPECT_EQ(minimax(board), std::make_pair(1, 3));
