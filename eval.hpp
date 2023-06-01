@@ -3,6 +3,6 @@
 
 #include "board.hpp"
 
-int eval(const Board& board, int lastMove);
+int eval(const Board& board);
 
 #endif

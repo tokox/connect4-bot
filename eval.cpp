@@ -1,7 +1,9 @@
 #include "eval.hpp"
 
-int eval(const Board& board, int lastMove) {
-	int c = lastMove, r = board.empty[lastMove];
+int eval(const Board& board) {
+	if(board.moves_hist.empty())
+		return 0;
+	int c = board.moves_hist.back(), r = board.empty[board.moves_hist.back()];
 	char p = board.board[r][c];
 	bool down = false;
 	if(r < 3) {

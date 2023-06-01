@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <iostream>
+#include <vector>
 
 class Board {
 	public:
@@ -17,8 +18,10 @@ class Board {
 		}
 		void print(std::ostream& os = std::cout);
 		bool move(int c, char p);
+		bool unmove();
 		char board[HEIGHT][WIDTH];
 		int empty[WIDTH];
+		std::vector<int> moves_hist;
 };
 
 #endif
