@@ -17,8 +17,8 @@ class Board {
 		}
 		void print(std::ostream& os = std::cout);
 		bool move(int c, char p);
-		char board[6][7];
-		int empty[7];
+		char board[HEIGHT][WIDTH];
+		int empty[WIDTH];
 };
 
 #endif

@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include "board.hpp"
+#include "eval.hpp"
 
 TEST(board, print_empty)
 {
@@ -57,4 +58,93 @@ TEST(board, moves_print)
 			"      P       \n"
 			"      P   C   \n";
 	EXPECT_EQ(r, ss.str());
+}
+
+TEST(eval, down)
+{
+	Board board;
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 0);
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 0);
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 0);
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 1);
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 1);
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 1);
+}
+
+TEST(eval, hor)
+{
+	Board board;
+	board.move(0, 'P');
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(1, 'P');
+	EXPECT_EQ(eval(board, 1), 0);
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(2, 'P');
+	EXPECT_EQ(eval(board, 2), 0);
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 1);
+	EXPECT_EQ(eval(board, 1), 1);
+	board.move(4, 'P');
+	EXPECT_EQ(eval(board, 4), 1);
+	board.move(5, 'P');
+	EXPECT_EQ(eval(board, 5), 1);
+}
+
+TEST(eval, backslash)
+{
+	Board board;
+	board.move(0, 'C');
+	board.move(0, 'C');
+	board.move(0, 'C');
+	board.move(0, 'P');
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(1, 'C');
+	board.move(1, 'C');
+	board.move(1, 'P');
+	EXPECT_EQ(eval(board, 1), 0);
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(2, 'C');
+	board.move(2, 'P');
+	EXPECT_EQ(eval(board, 2), 0);
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 1);
+	EXPECT_EQ(eval(board, 1), 1);
+	board.move(4, 'P');
+	EXPECT_EQ(eval(board, 4), 0);
+	board.move(5, 'P');
+	EXPECT_EQ(eval(board, 5), 0);
+}
+
+TEST(eval, slash)
+{
+	Board board;
+	board.move(0, 'P');
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(1, 'C');
+	board.move(1, 'P');
+	EXPECT_EQ(eval(board, 1), 0);
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(2, 'C');
+	board.move(2, 'C');
+	board.move(2, 'P');
+	EXPECT_EQ(eval(board, 2), 0);
+	EXPECT_EQ(eval(board, 0), 0);
+	board.move(3, 'C');
+	board.move(3, 'C');
+	board.move(3, 'C');
+	board.move(3, 'P');
+	EXPECT_EQ(eval(board, 3), 1);
+	EXPECT_EQ(eval(board, 1), 1);
+	board.move(4, 'P');
+	EXPECT_EQ(eval(board, 4), 0);
+	board.move(5, 'P');
+	EXPECT_EQ(eval(board, 5), 0);
 }
