@@ -13,6 +13,7 @@ class Board {
 		Board(std::string pos);
 		bool load(std::string pos);
 		void print(std::ostream& os = std::cout);
+		void print_out();
 		bool move(int c, char p);
 		bool unmove();
 		char board[HEIGHT][WIDTH];

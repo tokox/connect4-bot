@@ -21,6 +21,8 @@ bool Board::load(std::string pos) {
 	int idx = 0;
 	for(int i = 0; i < HEIGHT; i++, idx++) {
 		for(int j = 0; j < WIDTH; j++, idx++) {
+			if(pos[idx]=='.' || pos[idx]==' ' || i==0)
+				empty[j] = i+1-(i==0)+((pos[idx]=='.'||pos[idx]==' ')&&i==0);
 			board[i][j] = pos[idx]=='.'?' ':pos[idx];
 		}
 		if(idx != pos.size() && pos[idx] != '/')
@@ -41,6 +43,10 @@ void Board::print(std::ostream& os) {
 		os << '\n';
 	}
 	os << std::flush;
+}
+
+void Board::print_out() {
+	print(std::cout);
 }
 
 bool Board::move(int c, char p) {

@@ -165,6 +165,18 @@ TEST(eval, slash)
 	EXPECT_EQ(eval(board), 0);
 }
 
+TEST(eval, error)
+{
+	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
+	for(int i = 0; i < board.WIDTH; i++) {
+		if(board.empty[i]) {
+			board.move(i, 'O');
+			EXPECT_EQ(eval(board), 0);
+			board.unmove();
+		}
+	}
+}
+
 TEST(load, all)
 {
 	Board board("......./......./......./P.C.AD./P.ADCA./PAPDCD.");
@@ -184,6 +196,12 @@ TEST(minimax, easy_10)
 {
 	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
 	EXPECT_EQ(minimax(board, 10).first, 1);
+}
+
+TEST(minimax, easy2_5)
+{
+	Board board("......./......./......./P.C.OD./P.ODCO./POPDCDO");
+	EXPECT_EQ(minimax(board, 5).first, 1);
 }
 
 TEST(minimax, startpos_0)
