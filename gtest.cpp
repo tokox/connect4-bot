@@ -11,12 +11,12 @@ TEST(board, print_empty)
 	std::stringstream ss;
 	board.print(ss);
 	std::string r = "1 2 3 4 5 6 7 \n"
-			"              \n"
-			"              \n"
-			"              \n"
-			"              \n"
-			"              \n"
-			"              \n";
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n";
 	EXPECT_EQ(r, ss.str());
 }
 
@@ -27,12 +27,12 @@ TEST(board, move_print)
 	std::stringstream ss;
 	board.print(ss);
 	std::string r = "1 2 3 4 5 6 7 \n"
-			"              \n"
-			"              \n"
-			"              \n"
-			"              \n"
-			"              \n"
-			"      P       \n";
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . P . . . \n";
 	EXPECT_EQ(r, ss.str());
 }
 
@@ -52,12 +52,12 @@ TEST(board, moves_print)
 	std::stringstream ss;
 	board.print(ss);
 	std::string r = "1 2 3 4 5 6 7 \n"
-			"      z       \n"
-			"      P       \n"
-			"      w       \n"
-			"      z       \n"
-			"      P       \n"
-			"      P   C   \n";
+			". . . z . . . \n"
+			". . . P . . . \n"
+			". . . w . . . \n"
+			". . . z . . . \n"
+			". . . P . . . \n"
+			". . . P . C . \n";
 	EXPECT_EQ(r, ss.str());
 }
 
@@ -76,12 +76,12 @@ TEST(board, unmoves_print)
 	std::stringstream ss;
 	board.print(ss);
 	std::string r = "1 2 3 4 5 6 7 \n"
-			"              \n"
-			"      z       \n"
-			"      P       \n"
-			"      z       \n"
-			"      P       \n"
-			"      P   C   \n";
+			". . . . . . . \n"
+			". . . z . . . \n"
+			". . . P . . . \n"
+			". . . z . . . \n"
+			". . . P . . . \n"
+			". . . P . C . \n";
 	EXPECT_EQ(r, ss.str());
 }
 
@@ -183,12 +183,12 @@ TEST(load, all)
 	std::stringstream ss;
 	board.print(ss);
 	std::string r = "1 2 3 4 5 6 7 \n"
-			"              \n"
-			"              \n"
-			"              \n"
-			"P   C   A D   \n"
-			"P   A D C A   \n"
-			"P A P D C D   \n";
+			". . . . . . . \n"
+			". . . . . . . \n"
+			". . . . . . . \n"
+			"P . C . A D . \n"
+			"P . A D C A . \n"
+			"P A P D C D . \n";
 	EXPECT_EQ(r, ss.str());
 }
 
@@ -226,6 +226,24 @@ TEST(minimax, startpos_5)
 {
 	Board board;
 	EXPECT_EQ(minimax(board, 5).first, 0);
+}
+
+TEST(minimax, startpos_7)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 7).first, 0);
+}
+
+TEST(minimax, startpos_8)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 8).first, 0);
+}
+
+TEST(minimax, startpos_9)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 9).first, 0);
 }
 
 TEST(minimax, startpos_10)

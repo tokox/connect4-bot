@@ -3,7 +3,7 @@
 Board::Board() {
 	for(auto& r: board) {
 		for(auto& c: r)
-			c = ' ';
+			c = '.';
 	}
 	for(auto& e: empty)
 		e = HEIGHT;
@@ -21,9 +21,9 @@ bool Board::load(std::string pos) {
 	int idx = 0;
 	for(int i = 0; i < HEIGHT; i++, idx++) {
 		for(int j = 0; j < WIDTH; j++, idx++) {
-			if(pos[idx]=='.' || pos[idx]==' ' || i==0)
-				empty[j] = i+1-(i==0)+((pos[idx]=='.'||pos[idx]==' ')&&i==0);
-			board[i][j] = pos[idx]=='.'?' ':pos[idx];
+			if(pos[idx]=='.' || i==0)
+				empty[j] = i+1-(i==0)+((pos[idx]=='.')&&i==0);
+			board[i][j] = pos[idx];
 		}
 		if(idx != pos.size() && pos[idx] != '/')
 			return false;
@@ -63,7 +63,7 @@ bool Board::unmove() {
 		return false;
 	int m = moves_hist.back();
 	moves_hist.pop_back();
-	board[empty[m]][m] = ' ';
+	board[empty[m]][m] = '.';
 	empty[m]++;
 	return true;
 }
