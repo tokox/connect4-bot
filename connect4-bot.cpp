@@ -1,9 +1,23 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "eval.hpp"
 #include "board.hpp"
 #include "minimax.hpp"
 using namespace std;
+void print_help() {
+	ifstream file("README.md");
+	if(!file.good()) {
+		cout << "See at https://github.com/tokox/connect4-bot#readme" << endl;
+	} else {
+		string line;
+		getline(file, line);
+		while(!file.eof()) {
+			cout << line << endl;
+			getline(file, line);
+		}
+	}
+};
 int main(int argc, char* argv[])
 {
 	bool move = false;
@@ -15,6 +29,11 @@ int main(int argc, char* argv[])
 			move = true;
 		else if(arg == "print_moves")
 			print_moves = true;
+		else if(arg == "help")
+			{
+				print_help();
+				return 0;
+			}
 		else if(!arg.empty() && arg.find_first_not_of("0123456789") == std::string::npos)
 			depth = stoi(arg);
 		else
@@ -30,7 +49,7 @@ int main(int argc, char* argv[])
 			auto[ev, move] = minimax(board, depth);
 			board.move(move, 'O');
 			if(print_moves)
-				cerr << move << endl;
+				cerr << move+1 << endl;
 			if(eval(board) == 1) {
 				result = 1;
 			} else if(ev == 1) {
