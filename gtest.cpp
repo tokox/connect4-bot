@@ -240,28 +240,34 @@ TEST(minimax, startpos_5)
 	EXPECT_EQ(minimax(board, 5).first, 0);
 }
 
-TEST(minimax, startpos_7)
-{
-	Board board;
-	EXPECT_EQ(minimax(board, 7).first, 0);
-}
-
-TEST(minimax, startpos_8)
-{
-	Board board;
-	EXPECT_EQ(minimax(board, 8).first, 0);
-}
-
-TEST(minimax, startpos_9)
-{
-	Board board;
-	EXPECT_EQ(minimax(board, 9).first, 0);
-}
-
-TEST(minimax, DISABLED_startpos_10)
+TEST(minimax, startpos_10)
 {
 	Board board;
 	EXPECT_EQ(minimax(board, 10).first, 0);
+}
+
+TEST(minimax, startpos_12)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 12).first, 0);
+}
+
+TEST(minimax, startpos_13)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 13).first, 0);
+}
+
+TEST(minimax, DISABLED_startpos_14)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 14).first, 0);
+}
+
+TEST(minimax, DISABLED_startpos_15)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 15).first, 0);
 }
 
 TEST(minimax, DISABLED_startpos_21)

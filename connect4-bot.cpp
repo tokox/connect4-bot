@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 {
 	bool move = false;
 	bool print_moves = false;
-	int depth = 8;
+	int depth = 12;
 	for(int i = 1; i < argc; i++) {
 		string arg = argv[i];
 		if(arg == "start")
