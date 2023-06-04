@@ -6,7 +6,7 @@
 #include "minimax.hpp"
 using namespace std;
 void print_help() {
-	ifstream file("README.md");
+	ifstream file("../connect4-bot/README.md");
 	if(!file.good()) {
 		cout << "See at https://github.com/tokox/connect4-bot#readme" << endl;
 	} else {
