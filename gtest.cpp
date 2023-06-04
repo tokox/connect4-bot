@@ -192,16 +192,16 @@ TEST(load, all)
 	EXPECT_EQ(r, ss.str());
 }
 
-TEST(minimax, easy_10)
+TEST(minimax, easy_max)
 {
 	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
-	EXPECT_EQ(minimax(board, 10).first, 1);
+	EXPECT_EQ(minimax(board).first, board.WIDTH*board.HEIGHT-2);
 }
 
-TEST(minimax, easy2_5)
+TEST(minimax, easy2_7)
 {
 	Board board("......./......./......./P.C.OD./P.ODCO./POPDCDO");
-	EXPECT_EQ(minimax(board, 5).first, 1);
+	EXPECT_EQ(minimax(board, 7).first, board.WIDTH*board.HEIGHT-2);
 }
 
 TEST(minimax, startpos_0)
