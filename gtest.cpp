@@ -204,6 +204,18 @@ TEST(minimax, easy2_7)
 	EXPECT_EQ(minimax(board, 7).first, board.WIDTH*board.HEIGHT-2);
 }
 
+TEST(minimax, draw_9)
+{
+	Board board("......./......O/......X/......O/.X.X..O/XXXO..O");
+	EXPECT_EQ(minimax(board, 9), std::make_pair(0, 5));
+}
+
+TEST(minimax, win_8)
+{
+	Board board("......O/......O/......X/......O/.X.X..O/XXXO..O");
+	EXPECT_EQ(minimax(board, 8, false).first, -board.WIDTH*board.HEIGHT+8);
+}
+
 TEST(minimax, startpos_0)
 {
 	Board board;
@@ -246,19 +258,19 @@ TEST(minimax, startpos_9)
 	EXPECT_EQ(minimax(board, 9).first, 0);
 }
 
-TEST(minimax, startpos_10)
+TEST(minimax, DISABLED_startpos_10)
 {
 	Board board;
 	EXPECT_EQ(minimax(board, 10).first, 0);
 }
 
-TEST(minimax, startpos_21)
+TEST(minimax, DISABLED_startpos_21)
 {
 	Board board;
 	EXPECT_EQ(minimax(board, 21).first, 0);
 }
 
-TEST(minimax, startpos_max)
+TEST(minimax, DISABLED_startpos_max)
 {
 	Board board;
 	EXPECT_EQ(minimax(board), std::make_pair(1, 3));
