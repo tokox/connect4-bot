@@ -12,10 +12,11 @@ class Board {
 		Board();
 		Board(std::string pos);
 		bool load(std::string pos);
-		void print(std::ostream& os = std::cout);
-		void print_out();
+		void print(std::ostream& os = std::cout) const;
+		void print_out() const;
 		bool move(int c, char p);
 		bool unmove();
+		bool full() const;
 		char board[HEIGHT][WIDTH];
 		int empty[WIDTH];
 		std::vector<int> moves_hist;

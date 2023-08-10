@@ -240,10 +240,22 @@ TEST(minimax, startpos_5)
 	EXPECT_EQ(minimax(board, 5).first, 0);
 }
 
+TEST(minimax, startpos_9)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 9).first, 0);
+}
+
 TEST(minimax, startpos_10)
 {
 	Board board;
 	EXPECT_EQ(minimax(board, 10).first, 0);
+}
+
+TEST(minimax, startpos_11)
+{
+	Board board;
+	EXPECT_EQ(minimax(board, 11).first, 0);
 }
 
 TEST(minimax, startpos_12)
@@ -258,7 +270,7 @@ TEST(minimax, startpos_13)
 	EXPECT_EQ(minimax(board, 13).first, 0);
 }
 
-TEST(minimax, DISABLED_startpos_14)
+TEST(minimax, startpos_14)
 {
 	Board board;
 	EXPECT_EQ(minimax(board, 14).first, 0);

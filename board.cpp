@@ -1,4 +1,5 @@
 #include "board.hpp"
+#include <algorithm>
 
 Board::Board() {
 	for(auto& r: board) {
@@ -31,7 +32,7 @@ bool Board::load(std::string pos) {
 	return true;
 }
 
-void Board::print(std::ostream& os) {
+void Board::print(std::ostream& os) const {
 	for(int i = 0; i < WIDTH; i++) {
 		os << i+1 << ' ';
 	}
@@ -45,7 +46,7 @@ void Board::print(std::ostream& os) {
 	os << std::flush;
 }
 
-void Board::print_out() {
+void Board::print_out() const {
 	print(std::cout);
 }
 
@@ -66,4 +67,8 @@ bool Board::unmove() {
 	board[empty[m]][m] = '.';
 	empty[m]++;
 	return true;
+}
+
+bool Board::full() const {
+	return std::all_of(empty, empty+WIDTH, [](const auto& e){return e == 0;});
 }
