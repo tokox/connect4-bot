@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
 			if(print_moves)
 				cerr << pmove+1 << endl;
 			if(eval(board) == 1) {
-				user_mess += "\033[41m\033[3m You lost!\033[23m\033[49m";
+				user_mess += " \033[41m\033[3mYou lost!\033[23m\033[49m";
 			}
 		} else {
 			char pm = '\0';
@@ -185,11 +185,11 @@ int main(int argc, char* argv[])
 				}
 			}
 			if(eval(board) == 1) {
-				user_mess += "\033[42m\033[3m You won!\033[23m\033[49m";
+				user_mess += " \033[42m\033[3mYou won!\033[23m\033[49m";
 			}
 		}
 		if(board.full() && eval(board) == 0) {
-			user_mess += "\033[43m\033[3m Draw!\033[23m\033[49m";
+			user_mess += " \033[43m\033[3mDraw!\033[23m\033[49m";
 		}
 		print((string)(move?"\033[42m\033[1m":"")+"["+comp+"]"+(move?"\033[49m\033[22m":"")+": "+comp_mess, board, (string)(!move?"\033[42m\033[1m":"")+"["+(comp=='O'?'X':'O')+"]"+(!move?"\033[49m\033[22m":"")+": "+user_mess, true);
 		move = !move;
