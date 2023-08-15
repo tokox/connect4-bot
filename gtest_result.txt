@@ -1,5 +1,5 @@
 Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest_main.cc
-[==========] Running 24 tests from 4 test suites.
+[==========] Running 25 tests from 5 test suites.
 [----------] Global test environment set-up.
 [----------] 4 tests from board
 [ RUN      ] board.print_empty
@@ -30,6 +30,11 @@ Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest
 [       OK ] load.all (0 ms)
 [----------] 1 test from load (0 ms total)
 
+[----------] 1 test from left
+[ RUN      ] left.easy1
+[       OK ] left.easy1 (0 ms)
+[----------] 1 test from left (0 ms total)
+
 [----------] 14 tests from minimax
 [ RUN      ] minimax.easy_max
 [       OK ] minimax.easy_max (0 ms)
@@ -48,25 +53,25 @@ Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest
 [ RUN      ] minimax.startpos_5
 [       OK ] minimax.startpos_5 (0 ms)
 [ RUN      ] minimax.startpos_9
-[       OK ] minimax.startpos_9 (9 ms)
+[       OK ] minimax.startpos_9 (10 ms)
 [ RUN      ] minimax.startpos_10
 [       OK ] minimax.startpos_10 (56 ms)
 [ RUN      ] minimax.startpos_11
-[       OK ] minimax.startpos_11 (175 ms)
+[       OK ] minimax.startpos_11 (168 ms)
 [ RUN      ] minimax.startpos_12
-[       OK ] minimax.startpos_12 (1225 ms)
+[       OK ] minimax.startpos_12 (1213 ms)
 [ RUN      ] minimax.startpos_13
-[       OK ] minimax.startpos_13 (3734 ms)
+[       OK ] minimax.startpos_13 (3683 ms)
 [ RUN      ] minimax.startpos_14
-[       OK ] minimax.startpos_14 (25731 ms)
+[       OK ] minimax.startpos_14 (25919 ms)
 [ DISABLED ] minimax.DISABLED_startpos_15
 [ DISABLED ] minimax.DISABLED_startpos_21
 [ DISABLED ] minimax.DISABLED_startpos_max
-[----------] 14 tests from minimax (30961 ms total)
+[----------] 14 tests from minimax (31080 ms total)
 
 [----------] Global test environment tear-down
-[==========] 24 tests from 4 test suites ran. (30962 ms total)
-[  PASSED  ] 24 tests.
+[==========] 25 tests from 5 test suites ran. (31081 ms total)
+[  PASSED  ] 25 tests.
 
   YOU HAVE 3 DISABLED TESTS
 

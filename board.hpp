@@ -17,6 +17,7 @@ class Board {
 		bool move(int c, char p);
 		bool unmove();
 		bool full() const;
+		int left() const;
 		char board[HEIGHT][WIDTH];
 		int empty[WIDTH];
 		std::vector<int> moves_hist;

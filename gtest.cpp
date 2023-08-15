@@ -192,6 +192,12 @@ TEST(load, all)
 	EXPECT_EQ(r, ss.str());
 }
 
+TEST(left, easy1)
+{
+	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
+	EXPECT_EQ(board.left(), 5);
+}
+
 TEST(minimax, easy_max)
 {
 	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");

@@ -72,3 +72,11 @@ bool Board::unmove() {
 bool Board::full() const {
 	return std::all_of(empty, empty+WIDTH, [](const auto& e){return e == 0;});
 }
+
+int Board::left() const {
+	int sum = 0;
+	for(auto& e: empty) {
+		sum += e;
+	}
+	return sum;
+}

@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 			auto ptime = stime;
 			chrono::microseconds pttime = chrono::microseconds::zero();
 			chrono::microseconds pdtime = chrono::microseconds::zero();
-			for(int d = 0; (d <= depth || depth < 0) && (pttime.count() * 5 <= time*1000000-pdtime.count() || time < 0) && pev == 0; d++) {
+			for(int d = 0; (d <= depth || depth < 0) && (pttime.count() * 5 <= time*1000000-pdtime.count() || time < 0) && pev == 0 && d <= board.left(); d++) {
 				auto[ev, move] = minimax(board, d);
 				pev = ev;
 				pmove = move;
@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
 			if(print_moves)
 				cerr << pmove+1 << endl;
 			if(eval(board) == 1) {
-				user_mess += " \033[41m\033[3mYou lost!\033[23m\033[49m";
+				user_mess += " \033[41m\033[3m\033[1mYou lost!\033[1m\033[23m\033[49m";
 			}
 		} else {
 			char pm = '\0';
@@ -185,11 +185,11 @@ int main(int argc, char* argv[])
 				}
 			}
 			if(eval(board) == 1) {
-				user_mess += " \033[42m\033[3mYou won!\033[23m\033[49m";
+				user_mess += " \033[42m\033[3m\033[1mYou won!\033[1m\033[23m\033[49m";
 			}
 		}
 		if(board.full() && eval(board) == 0) {
-			user_mess += " \033[43m\033[3mDraw!\033[23m\033[49m";
+			user_mess += " \033[43m\033[3m\033[1mDraw!\033[1m\033[23m\033[49m";
 		}
 		print((string)(move?"\033[42m\033[1m":"")+"["+comp+"]"+(move?"\033[49m\033[22m":"")+": "+comp_mess, board, (string)(!move?"\033[42m\033[1m":"")+"["+(comp=='O'?'X':'O')+"]"+(!move?"\033[49m\033[22m":"")+": "+user_mess, true);
 		move = !move;
