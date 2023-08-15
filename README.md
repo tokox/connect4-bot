@@ -26,5 +26,4 @@ make connect4-bot
 ## TODO:
 - `position`, `moves` and `X|O` arguments
 - `Ctrl+C` stops computer thinking; infinite analysis
-- `lose/win in x moves` message
 - make bot play random best move instead of last one

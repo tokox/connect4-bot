@@ -159,7 +159,7 @@ int main(int argc, char* argv[])
 				chrono::microseconds ttime = chrono::duration_cast<chrono::microseconds>(etime-ptime);
 				pttime = ttime;
 				ptime = etime;
-				comp_mess = (string)"depth "+(d<10?" ":"")+to_string(d)+(depth<0?"":"/"+to_string(depth))+" ("+double_to_string((double)ttime.count()/1000000, 2)+"s) time "+double_to_string((double)dtime.count()/1000000, 2)+"s"+(time<0?"":"/"+to_string(time)+"s")+" bestmove "+to_string(move+1)+" result "+(ev==0?"draw":(ev>0?"win":"lose"));
+				comp_mess = (string)"depth "+(d<10?" ":"")+to_string(d)+(depth<0?"":"/"+to_string(depth))+" ("+double_to_string((double)ttime.count()/1000000, 2)+"s) time "+double_to_string((double)dtime.count()/1000000, 2)+"s"+(time<0?"":"/"+to_string(time)+"s")+" move "+to_string(move+1)+" result "+(ev==0?"draw":(ev>0?(d==0?"won":"win in "+to_string(d/2)):"lose in "+to_string(d/2+1)));
 				print((string)"\033[42m\033[1m["+comp+"]\033[49m\033[22m: "+comp_mess, board, (string)"["+(comp=='O'?'X':'O')+"]: "+user_mess, true);
 			}
 			if(!board.move(pmove, comp)) {
@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
 			while(true) {
 				cin >> pm;
 				if(!board.move((int)(pm-'1'), comp=='O'?'X':'O')) {
-					user_mess = (string)"\033[31mIncorrect move `"+pm+"`!\033[39m Try different";
+					user_mess = (string)"\033[31mIncorrect move `"+pm+"`\033[39m";
 					print((string)"["+comp+"]: "+comp_mess, board, (string)"\033[42m\033[1m["+(comp=='O'?'X':'O')+"]\033[49m\033[22m: "+user_mess, true);
 				} else {
 					user_mess = (string)"\033[32mCorrect move `"+pm+"`\033[39m";
