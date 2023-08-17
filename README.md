@@ -19,11 +19,10 @@ make connect4-bot
 - `history` - preserve previous board states on output. Default: no
 - `depth [any number]` - depth of the engine. Default: none.
 - `time [any number]` - time for the engine. Default: 5. *When used, depth is set to `time/~one_depth_time`. With `depth` depth is set to `min(depth, time/~one_depth_time)`. Estimated. May be inaccurate*
-- **:TODO:** `X|O` - which one is engine playing. Default: O
-- **:TODO:** `position [position]` - position to start the game. **No validation**
-- **:TODO:** `moves [1-7]+` - moves already played in the game. **Validation**
+- `X|O` - which one is engine playing. Default: O
+- `position [position]` - position to start the game.
+- `moves [moves]` - moves already played in the game.
 
 ## TODO:
-- `position`, `moves` and `X|O` arguments
 - `Ctrl+C` stops computer thinking; infinite analysis
 - make bot play random best move instead of last one

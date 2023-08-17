@@ -6,8 +6,7 @@
 std::pair<int, int> minimax(Board& board, int depth, bool Max, int d, int alpha, int beta) {
 	int best = -1, bestev = Max?-board.WIDTH*board.HEIGHT:board.WIDTH*board.HEIGHT;
 	for(int i = 0; i < board.WIDTH && beta > alpha; i++) {
-		if(board.empty[i]) {
-			board.move(i, Max?'O':'X');
+		if(board.move(i, Max?'O':'X')) {
 			int ev = eval(board);
 			if(ev != 0) {
 				ev = (Max?1:-1)*board.WIDTH*board.HEIGHT;

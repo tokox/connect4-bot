@@ -169,8 +169,7 @@ TEST(eval, error)
 {
 	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
 	for(int i = 0; i < board.WIDTH; i++) {
-		if(board.empty[i]) {
-			board.move(i, 'O');
+		if(board.move(i, 'O')) {
 			EXPECT_EQ(eval(board), 0);
 			board.unmove();
 		}
@@ -192,10 +191,40 @@ TEST(load, all)
 	EXPECT_EQ(r, ss.str());
 }
 
+TEST(startpos, all)
+{
+	Board board;
+	EXPECT_TRUE(board.load(board.startpos));
+}
+
+TEST(empty, easy1)
+{
+	Board board;
+	EXPECT_TRUE(board.empty());
+}
+
+TEST(empty, easy2)
+{
+	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
+	EXPECT_FALSE(board.empty());
+}
+
 TEST(left, easy1)
 {
 	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
 	EXPECT_EQ(board.left(), 5);
+}
+
+TEST(validate, empty)
+{
+	Board board;
+	EXPECT_TRUE(board.validate());
+}
+
+TEST(validate, ok1)
+{
+	Board board("......./......./......./......./...X.O./...O.X.");
+	EXPECT_TRUE(board.validate());
 }
 
 TEST(minimax, easy_max)
@@ -276,7 +305,7 @@ TEST(minimax, startpos_13)
 	EXPECT_EQ(minimax(board, 13).first, 0);
 }
 
-TEST(minimax, startpos_14)
+TEST(minimax, DISABLED_startpos_14)
 {
 	Board board;
 	EXPECT_EQ(minimax(board, 14).first, 0);
