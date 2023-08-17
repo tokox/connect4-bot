@@ -72,23 +72,23 @@ Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest
 [ RUN      ] minimax.startpos_5
 [       OK ] minimax.startpos_5 (0 ms)
 [ RUN      ] minimax.startpos_9
-[       OK ] minimax.startpos_9 (9 ms)
+[       OK ] minimax.startpos_9 (10 ms)
 [ RUN      ] minimax.startpos_10
 [       OK ] minimax.startpos_10 (56 ms)
 [ RUN      ] minimax.startpos_11
-[       OK ] minimax.startpos_11 (170 ms)
+[       OK ] minimax.startpos_11 (171 ms)
 [ RUN      ] minimax.startpos_12
-[       OK ] minimax.startpos_12 (1203 ms)
+[       OK ] minimax.startpos_12 (1202 ms)
 [ RUN      ] minimax.startpos_13
-[       OK ] minimax.startpos_13 (3599 ms)
+[       OK ] minimax.startpos_13 (3597 ms)
 [ DISABLED ] minimax.DISABLED_startpos_14
 [ DISABLED ] minimax.DISABLED_startpos_15
 [ DISABLED ] minimax.DISABLED_startpos_21
 [ DISABLED ] minimax.DISABLED_startpos_max
-[----------] 13 tests from minimax (5074 ms total)
+[----------] 13 tests from minimax (5073 ms total)
 
 [----------] Global test environment tear-down
-[==========] 29 tests from 8 test suites ran. (5075 ms total)
+[==========] 29 tests from 8 test suites ran. (5073 ms total)
 [  PASSED  ] 29 tests.
 
   YOU HAVE 4 DISABLED TESTS
