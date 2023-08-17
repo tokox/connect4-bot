@@ -5,6 +5,6 @@
 #include "board.hpp"
 #include "eval.hpp"
 
-std::pair<int, int> minimax(Board& board, int depth = Board::WIDTH*Board::HEIGHT, bool Max = true, int d = 0, int alpha = -Board::WIDTH*Board::HEIGHT, int beta = Board::WIDTH*Board::HEIGHT);
+std::pair<int, int> minimax(Board& board, int depth = Board::WIDTH*Board::HEIGHT, char comp = 'O', bool Max = true, int d = 0, int alpha = -Board::WIDTH*Board::HEIGHT, int beta = Board::WIDTH*Board::HEIGHT);
 
 #endif

@@ -248,7 +248,7 @@ TEST(minimax, draw_9)
 TEST(minimax, win_8)
 {
 	Board board("......O/......O/......X/......O/.X.X..O/XXXO..O");
-	EXPECT_EQ(minimax(board, 8, false).first, -board.WIDTH*board.HEIGHT+8);
+	EXPECT_EQ(minimax(board, 8, 'X').first, board.WIDTH*board.HEIGHT-8);
 }
 
 TEST(minimax, startpos_0)

@@ -215,7 +215,7 @@ int main(int argc, char* argv[])
 			chrono::microseconds pttime = chrono::microseconds::zero();
 			chrono::microseconds pdtime = chrono::microseconds::zero();
 			for(int d = 0; (d <= depth || depth < 0) && (pttime.count() * 5 <= time*1000000-pdtime.count() || time < 0) && pev == 0 && d <= board.left(); d++) {
-				auto[ev, move] = minimax(board, d);
+				auto[ev, move] = minimax(board, d, comp);
 				pev = ev;
 				pmove = move;
 				auto etime = chrono::steady_clock::now();
