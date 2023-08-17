@@ -166,9 +166,9 @@ int main(int argc, char* argv[])
 	if(!board.empty() && pxo.size() == 1) {
 		if(comp == '\0') {
 			if(start) {
-				comp = pxo[1];
+				comp = pxo[0];
 			} else {
-				comp = (pxo[1]=='O'?'X':'O');
+				comp = (pxo[0]=='O'?'X':'O');
 			}
 		} else {
 			if(comp != pxo[0] && start) {
