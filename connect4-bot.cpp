@@ -168,7 +168,9 @@ int main(int argc, char* argv[])
 			if(start) {
 				comp = pxo[0];
 			} else {
-				comp = (pxo[0]=='O'?'X':'O');
+				comp = 'O';
+				if(comp == pxo[0])
+					start = true;
 			}
 		} else {
 			if(comp != pxo[0] && start) {
