@@ -5,12 +5,6 @@
 #include "eval.hpp"
 #include "minimax.hpp"
 
-#ifndef NDEBUG
-#define DEBDIS GTEST_SKIP_("Debug Run Slowdown");
-#else
-#define DEBDIS
-#endif
-
 TEST(board, print_empty)
 {
 	Board board;
@@ -294,19 +288,19 @@ TEST(minimax, startpos_10)
 }
 
 TEST(minimax, startpos_11)
-{ DEBDIS
+{
 	Board board;
 	EXPECT_EQ(minimax(board, 11).first, 0);
 }
 
 TEST(minimax, startpos_12)
-{ DEBDIS
+{
 	Board board;
 	EXPECT_EQ(minimax(board, 12).first, 0);
 }
 
 TEST(minimax, startpos_13)
-{ DEBDIS
+{
 	Board board;
 	EXPECT_EQ(minimax(board, 13).first, 0);
 }

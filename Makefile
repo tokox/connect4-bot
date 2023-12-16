@@ -1,6 +1,9 @@
-CXXFLAGS = -Ofast -march=native -std=gnu++23 -DNDEBUG -flto=auto
+CXXFLAGS = -Ofast -march=native -std=gnu++23 -DNDEBUG -flto=auto -fno-exceptions -static
 .PHONY: default
 default: connect4-bot gtest
+.PHONY: debug
+debug: default
+debug: CXXFLAGS = $(DEBUGFLAGS)
 connect4-bot: board.o eval.o minimax.o
 gtest: board.o eval.o minimax.o
 gtest: LDLIBS += $(shell pkg-config --libs gtest gtest_main)

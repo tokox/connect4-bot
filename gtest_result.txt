@@ -58,11 +58,11 @@ Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest
 [ RUN      ] minimax.easy_max
 [       OK ] minimax.easy_max (0 ms)
 [ RUN      ] minimax.easy2_7
-[       OK ] minimax.easy2_7 (5 ms)
+[       OK ] minimax.easy2_7 (3 ms)
 [ RUN      ] minimax.draw_9
-[       OK ] minimax.draw_9 (27 ms)
+[       OK ] minimax.draw_9 (25 ms)
 [ RUN      ] minimax.win_8
-[       OK ] minimax.win_8 (2 ms)
+[       OK ] minimax.win_8 (3 ms)
 [ RUN      ] minimax.startpos_0
 [       OK ] minimax.startpos_0 (0 ms)
 [ RUN      ] minimax.startpos_1
@@ -72,23 +72,23 @@ Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest
 [ RUN      ] minimax.startpos_5
 [       OK ] minimax.startpos_5 (0 ms)
 [ RUN      ] minimax.startpos_9
-[       OK ] minimax.startpos_9 (10 ms)
+[       OK ] minimax.startpos_9 (12 ms)
 [ RUN      ] minimax.startpos_10
-[       OK ] minimax.startpos_10 (56 ms)
+[       OK ] minimax.startpos_10 (57 ms)
 [ RUN      ] minimax.startpos_11
-[       OK ] minimax.startpos_11 (171 ms)
+[       OK ] minimax.startpos_11 (149 ms)
 [ RUN      ] minimax.startpos_12
-[       OK ] minimax.startpos_12 (1202 ms)
+[       OK ] minimax.startpos_12 (1028 ms)
 [ RUN      ] minimax.startpos_13
-[       OK ] minimax.startpos_13 (3597 ms)
+[       OK ] minimax.startpos_13 (3158 ms)
 [ DISABLED ] minimax.DISABLED_startpos_14
 [ DISABLED ] minimax.DISABLED_startpos_15
 [ DISABLED ] minimax.DISABLED_startpos_21
 [ DISABLED ] minimax.DISABLED_startpos_max
-[----------] 13 tests from minimax (5073 ms total)
+[----------] 13 tests from minimax (4439 ms total)
 
 [----------] Global test environment tear-down
-[==========] 29 tests from 8 test suites ran. (5073 ms total)
+[==========] 29 tests from 8 test suites ran. (4439 ms total)
 [  PASSED  ] 29 tests.
 
   YOU HAVE 4 DISABLED TESTS
