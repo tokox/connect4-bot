@@ -1,168 +1,227 @@
 #include "board.hpp"
-#include <algorithm>
 
-Board::Board() {
-	this->load(startpos);
+#include <iostream>
+#include <cassert>
+#include <stdexcept>
+#include <cstring>
+#include <bit>
+
+Board::Board()
+{
+	this->moves = REPB(111, 42);
+	this->board_o = 0;
+	this->board_x = 0;
+	this->count = 0;
+	this->turn = 0;
+	this->x_O = 0;
 }
 
-Board::Board(std::string pos) {
-	if(!this->load(pos)) {
+Board::Board(const char* pos, const char* mov)
+{
+	if (!this->loadpos(pos))
 		throw std::invalid_argument("Invalid position");
-	}
+	if (mov != NULL && !this->makemoves(mov))
+		throw std::invalid_argument("Invalid moves");
 }
 
-bool Board::load(std::string pos) {
-	if(pos.size() != WIDTH*HEIGHT+HEIGHT-1)
+bool Board::loadpos(const char* pos)
+{
+	usz len = strlen(pos);
+	if (len != 49)
 		return false;
-	int idx = 0;
-	for(int i = 0; i < HEIGHT; i++, idx++) {
-		for(int j = 0; j < WIDTH; j++, idx++) {
-			if(pos[idx]=='.' || i==0)
-				empty_column[j] = i+1-(i==0)+((pos[idx]=='.')&&i==0);
-			board[i][j] = pos[idx];
-		}
-		if(idx != pos.size() && pos[idx] != '/')
-			return false;
-	}
-	return true;
-}
-
-bool Board::validate(std::string pl, std::string* tp) const {
-	if(full())
-		return false;
-	if(tp != nullptr)
-		tp->clear();
-	int cnt[pl.size()];
-	for(auto& c: cnt)
-		c = 0;
-	for(int r = 0; r < HEIGHT; r++) {
-		for(int c = 0; c < WIDTH; c++) {
-			char p = board[r][c];
-			if(r > 0 && p == '.' && board[r-1][c] != '.')
+	this->moves = REPB(111, 42);
+	this->board_o = 0;
+	this->board_x = 0;
+	this->count = 0;
+	for (u64 i = 0; i < 6; i++, pos++)
+	{
+		for (u64 j = 0; j < 7; j++, pos++)
+		{
+			if (*pos == 'O' || *pos == 'o')
+				this->board_o ^= 1ull << ((5 - i) * 7 + j);
+			else if (*pos == 'X' || *pos == 'x')
+				this->board_x ^= 1ull << ((5 - i) * 7 + j);
+			else if (*pos != '.')
 				return false;
-			if(p != '.') {
-				if(pl.find(p) == std::string::npos)
+
+			if (((this->count >> (j * 3)) & 0b111) == 0)
+			{
+				if (*pos != '.')
+					this->count |= (u32) (6 - i) << (j * 3);
+			}
+			else
+			{
+				if (*pos == '.')
 					return false;
-				cnt[pl.find(p)]++;
-				if(r < 3) {
-					bool down = true;
-					for(int i = r; i < HEIGHT && i-r < 4; i++) {
-						if(board[i][c] != p)
-							down = false;
-					}
-					if(down)
-						return false;
-				}
-				int hor = -1;
-				for(int i = c; i >= 0 && board[r][i] == p; i--) {
-					hor++;
-					if(hor == 4)
-						return false;
-				}
-				for(int i = c; i < WIDTH && board[r][i] == p; i++) {
-					hor++;
-					if(hor == 4)
-						return false;
-				}
-				int backslash = -1;
-				for(int i = 0; c-i >= 0 && r-i >= 0 && board[r-i][c-i] == p; i++) {
-					backslash++;
-					if(backslash == 4)
-						return false;
-				}
-				for(int i = 0; c+i < WIDTH && r+i < HEIGHT && board[r+i][c+i] == p; i++) {
-					backslash++;
-					if(backslash == 4)
-						return false;
-				}
-				int slash = -1;
-				for(int i = 0; c-i >= 0 && r+i < HEIGHT && board[r+i][c-i] == p; i++) {
-					slash++;
-					if(slash == 4)
-						return false;
-				}
-				for(int i = 0; c+i < WIDTH && r-i >= 0 && board[r-i][c+i] == p; i++) {
-					slash++;
-					if(slash == 4)
-						return false;
-				}
 			}
 		}
+		if (i + 1 < 6 && *pos != '/')
+			return false;
+		if (i + 1 == 6 && *pos != ':')
+			return false;
 	}
-	int c = cnt[0];
-	if(tp != nullptr)
-		tp->push_back(pl[0]);
-	for(int i = 1; i < pl.size(); i++) {
-		if(cnt[i] < c) {
-			c = cnt[i];
-			if(tp != nullptr) {
-				tp->clear();
-				tp->push_back(pl[i]);
+	int cnto = std::popcount(this->board_o);
+	int cntx = std::popcount(this->board_x);
+	if (cnto != cntx && cnto != cntx + 1 && cnto != cntx - 1)
+		return false;
+	this->turn = cnto > cntx;
+	if (*pos == 'X' || *pos == 'x')
+		this->x_O = !this->turn;
+	else if (*pos == 'O' || *pos == 'o')
+		this->x_O = this->turn;
+	else
+		return false;
+	return true;
+}
+
+bool Board::makemoves(const char* mov)
+{
+	const char* movcpy = mov;
+	while (*mov != '\0')
+	{
+		if (*mov <= '1' || *mov >= '7')
+			return false;
+		mov++;
+	}
+	mov = movcpy;
+	while (*mov != '\0')
+	{
+		if (!this->move(*mov - '1'))
+		{
+			while (mov >= movcpy)
+			{
+				this->unmove();
+				mov--;
 			}
-		} else if(cnt[i] == c) {
-			if(tp != nullptr)
-				tp->push_back(pl[i]);
-		}
-	}
-	for(auto& cn: cnt) {
-		if(cn-1 > c) {
-			if(tp != nullptr)
-				tp->clear();
 			return false;
 		}
+		mov++;
 	}
 	return true;
 }
 
-void Board::print(std::ostream& os) const {
-	for(int i = 0; i < WIDTH; i++) {
-		os << i+1 << ' ';
+void Board::reset()
+{
+	this->moves = REPB(111, 42);
+	this->board_o = 0;
+	this->board_x = 0;
+	this->count = 0;
+	this->turn = 0;
+	this->x_O = 0;
+}
+
+inline bool Board::move(u64 c)
+{
+	assert(c < 7);
+	u64 count_c = (this->count >> (c * 3)) & 0b111;
+	if (count_c == 6)
+		return false;
+	if (this->turn)
+		this->board_x ^= 1ull << (count_c * 7 + c);
+	else
+		this->board_o ^= 1ull << (count_c * 7 + c);
+	count_c ^= count_c + 1;
+	this->count ^= (u32) count_c << (c * 3);
+	this->turn ^= 1;
+	this->moves <<= 3;
+	this->moves |= c;
+	return true;
+}
+
+inline bool Board::unmove()
+{
+	u64 c = this->moves & 0b111;
+	if (c == 0b111)
+		return false;
+	this->moves >>= 3;
+	this->moves |= (u128) 0b111 << 123;
+	this->turn ^= 1;
+	u64 count_c = (this->count >> (c * 3)) & 0b111;
+	assert(count_c > 0);
+	--count_c;
+	if (this->turn)
+		this->board_x ^= 1ull << (count_c * 7 + c);
+	else
+		this->board_o ^= 1ull << (count_c * 7 + c);
+	count_c ^= count_c + 1;
+	this->count ^= (u32) count_c << (c * 3);
+	return true;
+}
+
+inline bool Board::full() const
+{
+	return this->count == REPB(110, 7);
+}
+
+inline bool Board::won() const
+{
+	u64 board = this->turn ? this->board_o : this->board_x;
+	u64 mask = board & (board >> 1);
+	if (mask & (mask >> 2))
+		return true;
+	mask = board & (board >> 7);
+	if (mask & (mask >> 14))
+		return true;
+	mask = board & (board >> 6);
+	if (mask & (mask >> 12))
+		return true;
+	mask = board & (board >> 8);
+	if (mask & (mask >> 16))
+		return true;
+	return false;
+}
+
+inline u64 Board::compressed() const
+{
+	return this->board_x << 21 | this->count;
+}
+
+void Board::to_array(char arr[6][7]) const
+{
+	for (u64 i = 0; i < 6; i++)
+	{
+		for (u64 j = 0; j < 7; j++)
+		{
+			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
+				arr[i][j] = (this->x_O ? 'X' : 'O');
+			else if (this->board_x & (1ull << ((5 - i) * 7 + j)))
+				arr[i][j] = (this->x_O ? 'O' : 'X');
+			else
+				arr[i][j] = '.';
+		}
 	}
+}
+
+void Board::print_os(std::ostream& os) const
+{
+	for (u64 i = 0; i < 7; i++)
+		os << i + 1 << ' ';
 	os << '\n';
-	for(auto& r: board) {
-		for(auto& c: r) {
-			os << c << ' ';
+	for (u64 i = 0; i < 6; i++)
+	{
+		for (u64 j = 0; j < 7; j++)
+		{
+			bool e = true;
+			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
+			{
+				os << (this->x_O ? 'X' : 'O');
+				e = false;
+			}
+			if (this->board_x & (1ull << ((5 - i) * 7 + j)))
+			{
+				os << (this->x_O ? 'O' : 'X');
+				e = false;
+			}
+			if (e)
+				os << '.';
+			os << ' ';
 		}
 		os << '\n';
 	}
 	os << std::flush;
 }
 
-void Board::print_out() const {
-	print(std::cout);
-}
-
-bool Board::move(int c, char p) {
-	if(c < 0 || c >= WIDTH || empty_column[c] == 0)
-		return false;
-	board[empty_column[c]-1][c] = p;
-	empty_column[c]--;
-	moves_hist.push_back(c);
-	return true;
-}
-
-bool Board::unmove() {
-	if(moves_hist.empty())
-		return false;
-	int m = moves_hist.back();
-	moves_hist.pop_back();
-	board[empty_column[m]][m] = '.';
-	empty_column[m]++;
-	return true;
-}
-
-bool Board::full() const {
-	return std::all_of(empty_column, empty_column+WIDTH, [](const auto& e){return e == 0;});
-}
-
-bool Board::empty() const {
-	return std::all_of(empty_column, empty_column+WIDTH, [](const auto& e){return e == HEIGHT;});
-}
-
-int Board::left() const {
-	int sum = 0;
-	for(auto& e: empty_column) {
-		sum += e;
-	}
-	return sum;
+void Board::print() const
+{
+	this->print_os(std::cout);
 }

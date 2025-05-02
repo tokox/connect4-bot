@@ -1,7 +1,7 @@
-Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest_main.cc
-[==========] Running 29 tests from 8 test suites.
+Running main() from /builddir/build/BUILD/googletest-1.14.0/googletest/src/gtest_main.cc
+[==========] Running 11 tests from 5 test suites.
 [----------] Global test environment set-up.
-[----------] 4 tests from board
+[----------] 5 tests from board
 [ RUN      ] board.print_empty
 [       OK ] board.print_empty (0 ms)
 [ RUN      ] board.move_print
@@ -10,86 +10,34 @@ Running main() from /builddir/build/BUILD/googletest-1.13.0/googletest/src/gtest
 [       OK ] board.moves_print (0 ms)
 [ RUN      ] board.unmoves_print
 [       OK ] board.unmoves_print (0 ms)
-[----------] 4 tests from board (0 ms total)
+[ RUN      ] board.unmoves
+[       OK ] board.unmoves (0 ms)
+[----------] 5 tests from board (0 ms total)
 
-[----------] 5 tests from eval
+[----------] 1 test from loadpos
+[ RUN      ] loadpos.all
+[       OK ] loadpos.all (0 ms)
+[----------] 1 test from loadpos (0 ms total)
+
+[----------] 1 test from is_full
+[ RUN      ] is_full.empty
+[       OK ] is_full.empty (0 ms)
+[----------] 1 test from is_full (0 ms total)
+
+[----------] 1 test from loadpos_is_full
+[ RUN      ] loadpos_is_full.easy2
+[       OK ] loadpos_is_full.easy2 (0 ms)
+[----------] 1 test from loadpos_is_full (0 ms total)
+
+[----------] 3 tests from eval
 [ RUN      ] eval.down
 [       OK ] eval.down (0 ms)
 [ RUN      ] eval.hor
 [       OK ] eval.hor (0 ms)
 [ RUN      ] eval.backslash
 [       OK ] eval.backslash (0 ms)
-[ RUN      ] eval.slash
-[       OK ] eval.slash (0 ms)
-[ RUN      ] eval.error
-[       OK ] eval.error (0 ms)
-[----------] 5 tests from eval (0 ms total)
-
-[----------] 1 test from load
-[ RUN      ] load.all
-[       OK ] load.all (0 ms)
-[----------] 1 test from load (0 ms total)
-
-[----------] 1 test from startpos
-[ RUN      ] startpos.all
-[       OK ] startpos.all (0 ms)
-[----------] 1 test from startpos (0 ms total)
-
-[----------] 2 tests from empty
-[ RUN      ] empty.easy1
-[       OK ] empty.easy1 (0 ms)
-[ RUN      ] empty.easy2
-[       OK ] empty.easy2 (0 ms)
-[----------] 2 tests from empty (0 ms total)
-
-[----------] 1 test from left
-[ RUN      ] left.easy1
-[       OK ] left.easy1 (0 ms)
-[----------] 1 test from left (0 ms total)
-
-[----------] 2 tests from validate
-[ RUN      ] validate.empty
-[       OK ] validate.empty (0 ms)
-[ RUN      ] validate.ok1
-[       OK ] validate.ok1 (0 ms)
-[----------] 2 tests from validate (0 ms total)
-
-[----------] 13 tests from minimax
-[ RUN      ] minimax.easy_max
-[       OK ] minimax.easy_max (0 ms)
-[ RUN      ] minimax.easy2_7
-[       OK ] minimax.easy2_7 (3 ms)
-[ RUN      ] minimax.draw_9
-[       OK ] minimax.draw_9 (25 ms)
-[ RUN      ] minimax.win_8
-[       OK ] minimax.win_8 (3 ms)
-[ RUN      ] minimax.startpos_0
-[       OK ] minimax.startpos_0 (0 ms)
-[ RUN      ] minimax.startpos_1
-[       OK ] minimax.startpos_1 (0 ms)
-[ RUN      ] minimax.startpos_2
-[       OK ] minimax.startpos_2 (0 ms)
-[ RUN      ] minimax.startpos_5
-[       OK ] minimax.startpos_5 (0 ms)
-[ RUN      ] minimax.startpos_9
-[       OK ] minimax.startpos_9 (12 ms)
-[ RUN      ] minimax.startpos_10
-[       OK ] minimax.startpos_10 (57 ms)
-[ RUN      ] minimax.startpos_11
-[       OK ] minimax.startpos_11 (149 ms)
-[ RUN      ] minimax.startpos_12
-[       OK ] minimax.startpos_12 (1028 ms)
-[ RUN      ] minimax.startpos_13
-[       OK ] minimax.startpos_13 (3158 ms)
-[ DISABLED ] minimax.DISABLED_startpos_14
-[ DISABLED ] minimax.DISABLED_startpos_15
-[ DISABLED ] minimax.DISABLED_startpos_21
-[ DISABLED ] minimax.DISABLED_startpos_max
-[----------] 13 tests from minimax (4439 ms total)
+[----------] 3 tests from eval (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 29 tests from 8 test suites ran. (4439 ms total)
-[  PASSED  ] 29 tests.
-
-  YOU HAVE 4 DISABLED TESTS
-
+[==========] 11 tests from 5 test suites ran. (0 ms total)
+[  PASSED  ] 11 tests.

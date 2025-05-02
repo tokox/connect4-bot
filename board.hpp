@@ -2,28 +2,34 @@
 #define CONN4_BOT_BOARD
 
 #include <ostream>
-#include <iostream>
-#include <vector>
-#include <string>
 
-class Board {
-	public:
-		static const int HEIGHT = 6, WIDTH = 7;
-		static constexpr const char* startpos = "......./......./......./......./......./.......";
-		Board();
-		Board(std::string pos);
-		bool load(std::string pos);
-		bool validate(std::string pl = "XO", std::string* tp = nullptr) const;
-		void print(std::ostream& os = std::cout) const;
-		void print_out() const;
-		bool move(int c, char p);
-		bool unmove();
-		bool full() const;
-		bool empty() const;
-		int left() const;
-		char board[HEIGHT][WIDTH];
-		int empty_column[WIDTH];
-		std::vector<int> moves_hist;
+#include "types.hpp"
+
+class Board
+{
+public:
+	Board();
+	Board(const char* pos, const char* mov = NULL);
+	bool loadpos(const char* pos);
+	bool makemoves(const char* mov);
+	void reset();
+	inline bool move(u64 c);
+	inline bool unmove();
+	inline bool full() const;
+	inline bool won() const;
+	inline u64 compressed() const;
+	void to_array(char array[6][7]) const;
+	void print_os(std::ostream& os) const;
+	void print() const;
+
+	u128 moves;
+	u64 board_o;
+	u64 board_x;
+	u32 count;
+	u8 turn;
+	u8 x_O;
 };
+
+#include "board.cpp"
 
 #endif
