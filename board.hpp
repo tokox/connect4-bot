@@ -20,7 +20,7 @@ public:
 	inline bool empty() const;
 	u64 made() const;
 	u64 left() const;
-	inline u64 compressed() const;
+	inline u128 compressed() const;
 	void to_array(char array[6][7]) const;
 	void print_os(std::ostream& os) const;
 	void print() const;

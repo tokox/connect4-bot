@@ -37,9 +37,9 @@ bool Board::loadpos(const char* pos)
 		for (u64 j = 0; j < 7; j++, pos++)
 		{
 			if (*pos == 'O' || *pos == 'o')
-				this->board_o ^= 1ull << ((5 - i) * 7 + j);
+				this->board_o ^= 1ull << ((5 - i) * 8 + j);
 			else if (*pos == 'X' || *pos == 'x')
-				this->board_x ^= 1ull << ((5 - i) * 7 + j);
+				this->board_x ^= 1ull << ((5 - i) * 8 + j);
 			else if (*pos != '.')
 				return false;
 
@@ -128,9 +128,9 @@ inline bool Board::move(u64 c)
 	if (count_c == 6)
 		return false;
 	if (this->turn)
-		this->board_x ^= 1ull << (count_c * 7 + c);
+		this->board_x ^= 1ull << (count_c * 8 + c);
 	else
-		this->board_o ^= 1ull << (count_c * 7 + c);
+		this->board_o ^= 1ull << (count_c * 8 + c);
 	count_c ^= count_c + 1;
 	this->count ^= (u32) count_c << (c * 3);
 	this->turn ^= 1;
@@ -151,9 +151,9 @@ inline bool Board::unmove()
 	assert(count_c > 0);
 	--count_c;
 	if (this->turn)
-		this->board_x ^= 1ull << (count_c * 7 + c);
+		this->board_x ^= 1ull << (count_c * 8 + c);
 	else
-		this->board_o ^= 1ull << (count_c * 7 + c);
+		this->board_o ^= 1ull << (count_c * 8 + c);
 	count_c ^= count_c + 1;
 	this->count ^= (u32) count_c << (c * 3);
 	return true;
@@ -168,11 +168,11 @@ inline bool Board::won() const
 	mask = board & (board >> 7);
 	if (mask & (mask >> 14))
 		return true;
-	mask = board & (board >> 6);
-	if (mask & (mask >> 12))
-		return true;
 	mask = board & (board >> 8);
 	if (mask & (mask >> 16))
+		return true;
+	mask = board & (board >> 9);
+	if (mask & (mask >> 18))
 		return true;
 	return false;
 }
@@ -187,9 +187,9 @@ inline bool Board::empty() const
 	return this->count == 0;
 }
 
-inline u64 Board::compressed() const
+inline u128 Board::compressed() const
 {
-	return this->board_x << 21 | this->count;
+	return ((u128) this->board_x << 48) | this->board_o;
 }
 
 void Board::to_array(char arr[6][7]) const
@@ -198,9 +198,9 @@ void Board::to_array(char arr[6][7]) const
 	{
 		for (u64 j = 0; j < 7; j++)
 		{
-			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
+			if (this->board_o & (1ull << ((5 - i) * 8 + j)))
 				arr[i][j] = 'O';
-			else if (this->board_x & (1ull << ((5 - i) * 7 + j)))
+			else if (this->board_x & (1ull << ((5 - i) * 8 + j)))
 				arr[i][j] = 'X';
 			else
 				arr[i][j] = '.';
@@ -217,9 +217,9 @@ void Board::print_os(std::ostream& os) const
 	{
 		for (u64 j = 0; j < 7; j++)
 		{
-			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
+			if (this->board_o & (1ull << ((5 - i) * 8 + j)))
 				os << 'O';
-			else if (this->board_x & (1ull << ((5 - i) * 7 + j)))
+			else if (this->board_x & (1ull << ((5 - i) * 8 + j)))
 				os << 'X';
 			else
 				os << '.';
@@ -242,9 +242,9 @@ void Board::to_notation(char buf[50]) const
 	{
 		for (u64 j = 0; j < 7; j++)
 		{
-			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
+			if (this->board_o & (1ull << ((5 - i) * 8 + j)))
 				*pos = 'O';
-			else if (this->board_x & (1ull << ((5 - i) * 7 + j)))
+			else if (this->board_x & (1ull << ((5 - i) * 8 + j)))
 				*pos = 'X';
 			else
 				*pos = '.';

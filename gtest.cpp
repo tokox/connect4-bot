@@ -185,7 +185,7 @@ TEST(eval, hor)
 	EXPECT_TRUE(board.won());
 }
 
-TEST(eval, backslash)
+TEST(eval, slash)
 {
 	Board board;
 	board.move(0);
@@ -205,6 +205,52 @@ TEST(eval, backslash)
 	board.move(3);
 	EXPECT_TRUE(board.won());
 	board.move(4);
+	EXPECT_FALSE(board.won());
+}
+
+TEST(eval, slash2)
+{
+	Board board;
+	board.move(1);
+	board.move(2);
+	board.move(2);
+	board.move(3);
+	EXPECT_FALSE(board.won());
+	board.move(4);
+	board.move(3);
+	board.move(3);
+	EXPECT_FALSE(board.won());
+	board.move(4);
+	board.move(4);
+	EXPECT_FALSE(board.won());
+	board.move(5);
+	EXPECT_FALSE(board.won());
+	board.move(4);
+	EXPECT_TRUE(board.won());
+	board.move(5);
+	EXPECT_FALSE(board.won());
+}
+
+TEST(eval, backslash)
+{
+	Board board;
+	board.move(6);
+	board.move(5);
+	board.move(5);
+	board.move(4);
+	EXPECT_FALSE(board.won());
+	board.move(3);
+	board.move(4);
+	board.move(4);
+	EXPECT_FALSE(board.won());
+	board.move(3);
+	board.move(3);
+	EXPECT_FALSE(board.won());
+	board.move(2);
+	EXPECT_FALSE(board.won());
+	board.move(3);
+	EXPECT_TRUE(board.won());
+	board.move(2);
 	EXPECT_FALSE(board.won());
 }
 
