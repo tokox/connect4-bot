@@ -110,6 +110,23 @@ void Board::reset()
 	this->x_O = 0;
 }
 
+u64 Board::made() const
+{
+	u64 s = 0;
+	u64 cnt = this->count;
+	for (u64 i = 0; i < 7; i++)
+	{
+		s += cnt & 0b111;
+		cnt >>= 3;
+	}
+	return s;
+}
+
+u64 Board::left() const
+{
+	return 42 - this->made();
+}
+
 inline bool Board::move(u64 c)
 {
 	assert(c < 7);
@@ -148,11 +165,6 @@ inline bool Board::unmove()
 	return true;
 }
 
-inline bool Board::full() const
-{
-	return this->count == REPB(110, 7);
-}
-
 inline bool Board::won() const
 {
 	u64 board = this->turn ? this->board_o : this->board_x;
@@ -169,6 +181,16 @@ inline bool Board::won() const
 	if (mask & (mask >> 16))
 		return true;
 	return false;
+}
+
+inline bool Board::full() const
+{
+	return this->count == REPB(110, 7);
+}
+
+inline bool Board::empty() const
+{
+	return this->count == 0;
 }
 
 inline u64 Board::compressed() const

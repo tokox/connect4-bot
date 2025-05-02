@@ -4,52 +4,60 @@
 #include <cstdlib>
 #include <chrono>
 #include <regex>
-#include "eval.hpp"
 #include "board.hpp"
 #include "minimax.hpp"
 using namespace std;
-void print_help() {
+void print_help()
+{
 	ifstream file("../connect4-bot/README.md");
-	if(!file.good()) {
+	if (!file.good())
+	{
 		cout << "See at https://github.com/tokox/connect4-bot#readme" << endl;
-	} else {
+	}
+	else
+	{
 		string line;
 		getline(file, line);
-		while(!file.eof()) {
+		while (!file.eof())
+		{
 			cout << line << endl;
 			getline(file, line);
 		}
 	}
 };
-int csswces(string s) {
+int csswces(string s)
+{
 	regex reg("\033\\[(A|[\\d]+m)");
-	return regex_replace(s, reg, "").size();
+	return (int) regex_replace(s, reg, "").size();
 }
 int prev_cms = 0;
 int prev_ums = 0;
-void print(string comp_mess, Board board, string user_mess, bool override_prev = false) {
-	for(int i = 0; override_prev && i < board.HEIGHT+3; i++) {
+void print(string comp_mess, Board board, string user_mess, bool override_prev = false)
+{
+	for (int i = 0; override_prev && i < 6 + 3; i++)
+	{
 		cout << "\033[A";
 	}
 	int cms = csswces(comp_mess);
 	int ums = csswces(user_mess);
 	cout << comp_mess;
-	for(int i = 0; i < prev_cms-cms && override_prev; i++)
+	for (int i = 0; i < prev_cms - cms && override_prev; i++)
 		cout << " ";
 	cout << endl;
-	board.print_out();
+	board.print();
 	cout << user_mess;
-	for(int i = 0; i < prev_ums-ums && override_prev; i++)
+	for (int i = 0; i < prev_ums - ums && override_prev; i++)
 		cout << " ";
 	cout << endl;
 	prev_cms = cms;
 	prev_ums = ums;
 }
-string double_to_string(double value, string::size_type precision = string::npos) {
+string double_to_string(double value, string::size_type precision = string::npos)
+{
 	string res = to_string(value);
 	auto pos = res.find('.');
-	if(pos != string::npos && precision != string::npos)
-		res.erase(pos+precision+(precision>0?1:0));
+	if (pos != string::npos && precision != string::npos)
+		res.erase(pos + precision + (precision > 0 ? 1 : 0));
 	return res;
 }
 int main(int argc, char* argv[])
@@ -64,204 +72,285 @@ int main(int argc, char* argv[])
 	Board board;
 	string pxo;
 	string moves;
-	for(int i = 1; i < argc; i++) {
+	for (int i = 1; i < argc; i++)
+	{
 		string arg = argv[i];
-		if(arg == "help") {
+		if (arg == "help")
+		{
 			print_help();
 			return 0;
-		} else if(arg == "start") {
+		}
+		else if (arg == "start")
+		{
 			start = true;
-		} else if(arg == "X" || arg == "O") {
-			if(comp == '\0') {
+		}
+		else if (arg == "X" || arg == "O")
+		{
+			if (comp == '\0')
+			{
 				comp = arg[0];
-			} else {
+			}
+			else
+			{
 				cout << "Unexpected multiple `X|O` arguments" << endl;
 				return 1;
 			}
-		} else if(arg == "print_moves") {
+		}
+		else if (arg == "print_moves")
+		{
 			print_moves = true;
-		} else if(arg == "history") {
+		}
+		else if (arg == "history")
+		{
 			history = true;
-		} else if(arg == "depth") {
-			if(depth < 0) {
-				if(i+1 < argc) {
+		}
+		else if (arg == "depth")
+		{
+			if (depth < 0)
+			{
+				if (i + 1 < argc)
+				{
 					string next_arg = argv[++i];
-					try {
+					try
+					{
 						depth = stoi(next_arg);
-					} catch(...) {
+					}
+					catch (...)
+					{
 						cout << "Expected `[any number]` after `depth`. Got this: " << next_arg << endl;
 						return 1;
 					}
-				} else {
+				}
+				else
+				{
 					cout << "Expected `[any number]` after `depth`" << endl;
 					return 1;
 				}
-			} else {
+			}
+			else
+			{
 				cout << "Unexpected multiple `depth` arguments" << endl;
 				return 1;
 			}
-		} else if(arg == "time") {
-			if(time < 0) {
-				if(i+1 < argc) {
+		}
+		else if (arg == "time")
+		{
+			if (time < 0)
+			{
+				if (i + 1 < argc)
+				{
 					string next_arg = argv[++i];
-					try {
+					try
+					{
 						time = stoll(next_arg);
-					} catch(...) {
+					}
+					catch (...)
+					{
 						cout << "Expected `[any number]` after `time`. Got this: " << next_arg << endl;
 						return 1;
 					}
-				} else {
+				}
+				else
+				{
 					cout << "Expected `[any number]` after `time`" << endl;
 					return 1;
 				}
-			} else {
+			}
+			else
+			{
 				cout << "Unexpected multiple `time` arguments" << endl;
 				return 1;
 			}
-		} else if(arg == "position") {
-			if(board.empty()) {
-				if(i+1 < argc) {
+		}
+		else if (arg == "position")
+		{
+			if (board.empty())
+			{
+				if (i + 1 < argc)
+				{
 					string next_arg = argv[++i];
-					if(!board.load(next_arg)) {
+					if (!board.loadpos(next_arg.c_str()))
+					{
 						cout << "Expected `[position]` after `position`. Got this: " << next_arg << endl;
 						return 1;
 					}
-					if(!board.validate("XO", &pxo)) {
-						cout << "Invalid `[position]` after `position`: " << next_arg << endl;
-						return 1;
-					}
-				} else {
+				}
+				else
+				{
 					cout << "Expected `[position]` after `position`" << endl;
 					return 1;
 				}
-			} else {
+			}
+			else
+			{
 				cout << "Unexpected multiple `position` arguments" << endl;
 				return 1;
 			}
-		} else if(arg == "moves") {
-			if(moves.empty()) {
-				if(i+1 < argc) {
+		}
+		else if (arg == "moves")
+		{
+			if (moves.empty())
+			{
+				if (i + 1 < argc)
+				{
 					moves = argv[++i];
-					if(moves.find_first_not_of("1234567") != string::npos) {
+					if (moves.find_first_not_of("1234567") != string::npos)
+					{
 						cout << "Expected `[moves]` after `moves`. Got this: " << moves << endl;
 						return 1;
 					}
-				} else {
+				}
+				else
+				{
 					cout << "Expected `[moves]` after `moves`" << endl;
 					return 1;
 				}
-			} else {
+			}
+			else
+			{
 				cout << "Unexpected multiple `moves` arguments" << endl;
 				return 1;
 			}
-		} else {
+		}
+		else
+		{
 			cout << "Unexpected argument: " << arg << endl;
 			return 1;
 		}
 	}
-	if(time < 0 && depth < 0) {
+	if (time < 0 && depth < 0)
+	{
 		time = 5;
 		depth = -1;
 	}
-	if(!board.empty() && pxo.size() == 1) {
-		if(comp == '\0') {
-			if(start) {
+	if (!board.empty() && pxo.size() == 1)
+	{
+		if (comp == '\0')
+		{
+			if (start)
+			{
 				comp = pxo[0];
-			} else {
+			}
+			else
+			{
 				comp = 'O';
-				if(comp == pxo[0])
+				if (comp == pxo[0])
 					start = true;
 			}
-		} else {
-			if(comp != pxo[0] && start) {
+		}
+		else
+		{
+			if (comp != pxo[0] && start)
+			{
 				cout << "Cannot start as '" << comp << "' from this position" << endl;
 				return 1;
 			}
-			if(comp == pxo[0])
+			if (comp == pxo[0])
 				start = true;
 		}
-	} else if(comp == '\0')
+	}
+	else if (comp == '\0')
 		comp = 'O';
 	move = start;
-	for(auto& m: moves) {
-		if(!board.move((int)m-'1', move?comp:(comp=='O'?'X':'O')) || !board.validate("XO")) {
+	for (auto& m : moves)
+	{
+		if (!board.move((int) m - '1'))
+		{
 			cout << "Invalid `[moves]` after `moves`: " << moves << endl;
 			return 1;
 		}
 		move = !move;
 	}
-	if(system("stty -echo -icanon && tput civis") != 0) {
+	if (system("stty -echo -icanon && tput civis") != 0)
+	{
 		cout << "Terminal error!" << endl;
 		return 1;
 	}
 	string comp_mess;
 	string user_mess;
-	if(!history)
+	if (!history)
 		cout << "\n\n\n\n\n\n\n\n\n";
-	while(!board.full() && eval(board) != 1) {
-		if(history) {
+	while (!board.full() && board.won() != 1)
+	{
+		if (history)
+		{
 			comp_mess.clear();
 			user_mess.clear();
 			cout << endl;
 		}
-		if(move) {
+		if (move)
+		{
 			comp_mess.clear();
-		} else {
+		}
+		else
+		{
 			user_mess.clear();
 		}
-		print((string)(move?"\033[42m\033[1m":"")+"["+comp+"]"+(move?"\033[49m\033[22m":"")+": "+comp_mess, board, (string)(!move?"\033[42m\033[1m":"")+"["+(comp=='O'?'X':'O')+"]"+(!move?"\033[49m\033[22m":"")+": "+user_mess, !history);
-		if(move) {
+		print((string) (move ? "\033[42m\033[1m" : "") + "[" + comp + "]" + (move ? "\033[49m\033[22m" : "") + ": " + comp_mess, board, (string) (!move ? "\033[42m\033[1m" : "") + "[" + (comp == 'O' ? 'X' : 'O') + "]" + (!move ? "\033[49m\033[22m" : "") + ": " + user_mess, !history);
+		if (move)
+		{
 			int pev = 0, pmove = -1;
 			auto stime = chrono::steady_clock::now();
 			auto ptime = stime;
 			chrono::microseconds pttime = chrono::microseconds::zero();
 			chrono::microseconds pdtime = chrono::microseconds::zero();
-			for(int d = 0; (d <= depth || depth < 0) && (pttime.count() * 5 <= time*1000000-pdtime.count() || time < 0) && pev == 0 && d <= board.left(); d++) {
-				auto[ev, move] = minimax(board, d, comp);
+			for (int d = 0; (d <= depth || depth < 0) && (pttime.count() * 5 <= time * 1000000 - pdtime.count() || time < 0) && pev == 0 && d <= (int) board.left(); d++)
+			{
+				auto [ev, tmove] = minimax(board, d, comp);
 				pev = ev;
-				pmove = move;
+				pmove = tmove;
 				auto etime = chrono::steady_clock::now();
-				chrono::microseconds dtime = chrono::duration_cast<chrono::microseconds>(etime-stime);
+				chrono::microseconds dtime = chrono::duration_cast<chrono::microseconds>(etime - stime);
 				pdtime = dtime;
-				chrono::microseconds ttime = chrono::duration_cast<chrono::microseconds>(etime-ptime);
+				chrono::microseconds ttime = chrono::duration_cast<chrono::microseconds>(etime - ptime);
 				pttime = ttime;
 				ptime = etime;
-				comp_mess = (string)"depth "+(d<10?" ":"")+to_string(d)+(depth<0?"":"/"+to_string(depth))+" ("+double_to_string((double)ttime.count()/1000000, 2)+"s) time "+double_to_string((double)dtime.count()/1000000, 2)+"s"+(time<0?"":"/"+to_string(time)+"s")+" move "+to_string(move+1)+" result "+(ev==0?"draw":(ev>0?(d==0?"won":"win in "+to_string(d/2)):"lose in "+to_string(d/2+1)));
-				print((string)"\033[42m\033[1m["+comp+"]\033[49m\033[22m: "+comp_mess, board, (string)"["+(comp=='O'?'X':'O')+"]: "+user_mess, true);
+				comp_mess = (string) "depth " + (d < 10 ? " " : "") + to_string(d) + (depth < 0 ? "" : "/" + to_string(depth)) + " (" + double_to_string((double) ttime.count() / 1000000, 2) + "s) time " + double_to_string((double) dtime.count() / 1000000, 2) + "s" + (time < 0 ? "" : "/" + to_string(time) + "s") + " move " + to_string(tmove + 1) + " result " + (ev == 0 ? "draw" : (ev > 0 ? (d == 0 ? "won" : "win in " + to_string(d / 2)) : "lose in " + to_string(d / 2 + 1)));
+				print((string) "\033[42m\033[1m[" + comp + "]\033[49m\033[22m: " + comp_mess, board, (string) "[" + (comp == 'O' ? 'X' : 'O') + "]: " + user_mess, true);
 			}
-			if(!board.move(pmove, comp)) {
+			if (!board.move(pmove))
+			{
 				cout << "Computer error!" << endl;
 				return 1;
 			}
-			if(print_moves)
-				cerr << pmove+1 << endl;
-			if(eval(board) == 1) {
+			if (print_moves)
+				cerr << pmove + 1 << endl;
+			if (board.won() == 1)
+			{
 				user_mess += " \033[41m\033[3m\033[1mYou lost!\033[22m\033[23m\033[49m";
 			}
-		} else {
+		}
+		else
+		{
 			char pm = '\0';
-			auto stime = chrono::steady_clock::now();
-			while(true) {
+			while (true)
+			{
 				cin >> pm;
-				if(!board.move((int)(pm-'1'), comp=='O'?'X':'O')) {
-					user_mess = (string)"\033[31mInvalid move `"+pm+"`\033[39m";
-					print((string)"["+comp+"]: "+comp_mess, board, (string)"\033[42m\033[1m["+(comp=='O'?'X':'O')+"]\033[49m\033[22m: "+user_mess, true);
-				} else {
-					user_mess = (string)"\033[32mCorrect move `"+pm+"`\033[39m";
+				if (!board.move((int) (pm - '1')))
+				{
+					user_mess = (string) "\033[31mInvalid move `" + pm + "`\033[39m";
+					print((string) "[" + comp + "]: " + comp_mess, board, (string) "\033[42m\033[1m[" + (comp == 'O' ? 'X' : 'O') + "]\033[49m\033[22m: " + user_mess, true);
+				}
+				else
+				{
+					user_mess = (string) "\033[32mCorrect move `" + pm + "`\033[39m";
 					break;
 				}
 			}
-			if(eval(board) == 1) {
+			if (board.won() == 1)
+			{
 				user_mess += " \033[42m\033[3m\033[1mYou won!\033[22m\033[23m\033[49m";
 			}
 		}
-		if(board.full() && eval(board) == 0) {
+		if (board.full() && board.won() == 0)
+		{
 			user_mess += " \033[43m\033[3m\033[1mDraw!\033[22m\033[23m\033[49m";
 		}
-		print((string)(move?"\033[42m\033[1m":"")+"["+comp+"]"+(move?"\033[49m\033[22m":"")+": "+comp_mess, board, (string)(!move?"\033[42m\033[1m":"")+"["+(comp=='O'?'X':'O')+"]"+(!move?"\033[49m\033[22m":"")+": "+user_mess, true);
+		print((string) (move ? "\033[42m\033[1m" : "") + "[" + comp + "]" + (move ? "\033[49m\033[22m" : "") + ": " + comp_mess, board, (string) (!move ? "\033[42m\033[1m" : "") + "[" + (comp == 'O' ? 'X' : 'O') + "]" + (!move ? "\033[49m\033[22m" : "") + ": " + user_mess, true);
 		move = !move;
 	}
-	if(system("stty echo icanon && tput cnorm") != 0) {
+	if (system("stty echo icanon && tput cnorm") != 0)
+	{
 		cout << "Terminal error!" << endl;
 		return 1;
 	}
