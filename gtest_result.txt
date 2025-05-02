@@ -1,5 +1,5 @@
 Running main() from /builddir/build/BUILD/googletest-1.14.0/googletest/src/gtest_main.cc
-[==========] Running 11 tests from 5 test suites.
+[==========] Running 12 tests from 5 test suites.
 [----------] Global test environment set-up.
 [----------] 5 tests from board
 [ RUN      ] board.print_empty
@@ -29,15 +29,26 @@ Running main() from /builddir/build/BUILD/googletest-1.14.0/googletest/src/gtest
 [       OK ] loadpos_is_full.easy2 (0 ms)
 [----------] 1 test from loadpos_is_full (0 ms total)
 
-[----------] 3 tests from eval
+[----------] 4 tests from eval
 [ RUN      ] eval.down
 [       OK ] eval.down (0 ms)
 [ RUN      ] eval.hor
 [       OK ] eval.hor (0 ms)
 [ RUN      ] eval.backslash
 [       OK ] eval.backslash (0 ms)
-[----------] 3 tests from eval (0 ms total)
+[ RUN      ] eval.through_wall
+gtest.cpp:214: Failure
+Value of: board.won()
+  Actual: true
+Expected: false
+
+[  FAILED  ] eval.through_wall (0 ms)
+[----------] 4 tests from eval (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 11 tests from 5 test suites ran. (0 ms total)
+[==========] 12 tests from 5 test suites ran. (0 ms total)
 [  PASSED  ] 11 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] eval.through_wall
+
+ 1 FAILED TEST

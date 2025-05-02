@@ -24,13 +24,13 @@ public:
 	void to_array(char array[6][7]) const;
 	void print_os(std::ostream& os) const;
 	void print() const;
+	void to_notation(char buf[50]) const;
 
 	u128 moves;
 	u64 board_o;
 	u64 board_x;
 	u32 count;
 	u8 turn;
-	u8 x_O;
 };
 
 #include "board.cpp"

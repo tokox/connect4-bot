@@ -113,14 +113,14 @@ TEST(board, unmoves)
 
 TEST(loadpos, all)
 {
-	Board board("......./......./......./X.O.OO./X.OXXX./XOXOXO.:O");
+	Board board("......./......./O....../X.O.OO./X.OXXX./XOXOXO.");
 	std::stringstream ss;
 	board.print_os(ss);
 	std::string r =
 		"1 2 3 4 5 6 7 \n"
 		". . . . . . . \n"
 		". . . . . . . \n"
-		". . . . . . . \n"
+		"O . . . . . . \n"
 		"X . O . O O . \n"
 		"X . O X X X . \n"
 		"X O X O X O . \n";
@@ -136,7 +136,7 @@ TEST(is_full, empty)
 TEST(loadpos_is_full, easy2)
 {
 	Board board;
-	EXPECT_TRUE(board.loadpos("...OO../XXXOXXX/OXOXOXO/XOXOXOX/OOXOOXO/OOXXXOO:O"));
+	EXPECT_TRUE(board.loadpos("X..OO../XXXOXXX/OXOXOXO/XOXOXOX/OOXOOXO/OOXXXOO:O"));
 	EXPECT_FALSE(board.full());
 }
 
@@ -205,6 +205,12 @@ TEST(eval, backslash)
 	board.move(3);
 	EXPECT_TRUE(board.won());
 	board.move(4);
+	EXPECT_FALSE(board.won());
+}
+
+TEST(eval, through_wall)
+{
+	Board board("......./......./......./......./xx.o.../oo.o.xx:o");
 	EXPECT_FALSE(board.won());
 }
 

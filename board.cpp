@@ -13,7 +13,6 @@ Board::Board()
 	this->board_x = 0;
 	this->count = 0;
 	this->turn = 0;
-	this->x_O = 0;
 }
 
 Board::Board(const char* pos, const char* mov)
@@ -27,7 +26,7 @@ Board::Board(const char* pos, const char* mov)
 bool Board::loadpos(const char* pos)
 {
 	usz len = strlen(pos);
-	if (len != 49)
+	if (len != 47 && len != 49)
 		return false;
 	this->moves = REPB(111, 42);
 	this->board_o = 0;
@@ -57,19 +56,15 @@ bool Board::loadpos(const char* pos)
 		}
 		if (i + 1 < 6 && *pos != '/')
 			return false;
-		if (i + 1 == 6 && *pos != ':')
+		if (len == 49 && i + 1 == 6 && *pos != ':')
 			return false;
 	}
 	int cnto = std::popcount(this->board_o);
 	int cntx = std::popcount(this->board_x);
-	if (cnto != cntx && cnto != cntx + 1 && cnto != cntx - 1)
+	if (cnto != cntx && cnto != cntx + 1)
 		return false;
 	this->turn = cnto > cntx;
-	if (*pos == 'X' || *pos == 'x')
-		this->x_O = !this->turn;
-	else if (*pos == 'O' || *pos == 'o')
-		this->x_O = this->turn;
-	else
+	if (len == 49 && (*pos == 'O' || *pos == 'o') && this->turn)
 		return false;
 	return true;
 }
@@ -107,7 +102,6 @@ void Board::reset()
 	this->board_x = 0;
 	this->count = 0;
 	this->turn = 0;
-	this->x_O = 0;
 }
 
 u64 Board::made() const
@@ -205,9 +199,9 @@ void Board::to_array(char arr[6][7]) const
 		for (u64 j = 0; j < 7; j++)
 		{
 			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
-				arr[i][j] = (this->x_O ? 'X' : 'O');
+				arr[i][j] = 'O';
 			else if (this->board_x & (1ull << ((5 - i) * 7 + j)))
-				arr[i][j] = (this->x_O ? 'O' : 'X');
+				arr[i][j] = 'X';
 			else
 				arr[i][j] = '.';
 		}
@@ -223,18 +217,11 @@ void Board::print_os(std::ostream& os) const
 	{
 		for (u64 j = 0; j < 7; j++)
 		{
-			bool e = true;
 			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
-			{
-				os << (this->x_O ? 'X' : 'O');
-				e = false;
-			}
-			if (this->board_x & (1ull << ((5 - i) * 7 + j)))
-			{
-				os << (this->x_O ? 'O' : 'X');
-				e = false;
-			}
-			if (e)
+				os << 'O';
+			else if (this->board_x & (1ull << ((5 - i) * 7 + j)))
+				os << 'X';
+			else
 				os << '.';
 			os << ' ';
 		}
@@ -246,4 +233,25 @@ void Board::print_os(std::ostream& os) const
 void Board::print() const
 {
 	this->print_os(std::cout);
+}
+
+void Board::to_notation(char buf[50]) const
+{
+	char* pos = buf;
+	for (u64 i = 0; i < 6; i++, pos++)
+	{
+		for (u64 j = 0; j < 7; j++)
+		{
+			if (this->board_o & (1ull << ((5 - i) * 7 + j)))
+				*pos = 'O';
+			else if (this->board_x & (1ull << ((5 - i) * 7 + j)))
+				*pos = 'X';
+			else
+				*pos = '.';
+		}
+		*pos = '/';
+	}
+	*(pos - 1) = ':';
+	*pos = (this->turn ? 'X' : 'O');
+	*(pos + 1) = '\0';
 }
