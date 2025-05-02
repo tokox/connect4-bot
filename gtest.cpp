@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include "board.hpp"
+#include "minimax.hpp"
 
 TEST(board, print_empty)
 {
@@ -260,29 +261,28 @@ TEST(eval, through_wall)
 	EXPECT_FALSE(board.won());
 }
 
-/*
 TEST(minimax, easy_max)
 {
-	Board board("...OO../klfneod/vienvoa/odjeivn/maneoaa/obnemtn");
-	EXPECT_EQ(minimax(board).first, board.WIDTH * board.HEIGHT - 2);
+	Board board("oo.xx../xoxoxox/xoxoxox/oxoxoxo/oxoxoxo/oxoxoxo");
+	EXPECT_EQ(minimax(board).first, 42 - 2);
 }
 
 TEST(minimax, easy2_7)
 {
-	Board board("......./......./......./P.C.OD./P.ODCO./POPDCDO");
-	EXPECT_EQ(minimax(board, 7).first, board.WIDTH * board.HEIGHT - 2);
+	Board board("......./......./......./x.x.ox./o.oxxo./ooxxoxo:o");
+	EXPECT_EQ(minimax(board, 7).first, 42 - 2);
 }
 
 TEST(minimax, draw_9)
 {
-	Board board("......./......O/......X/......O/.X.X..O/XXXO..O");
+	Board board("......./......X/......O/......X/.O.O..X/OOOX..X");
 	EXPECT_EQ(minimax(board, 9), std::make_pair(0, 5));
 }
 
 TEST(minimax, win_8)
 {
-	Board board("......O/......O/......X/......O/.X.X..O/XXXO..O");
-	EXPECT_EQ(minimax(board, 8, 'X').first, board.WIDTH * board.HEIGHT - 8);
+	Board board("......X/......X/......O/......X/.O.O..X/OOOX..X:O");
+	EXPECT_EQ(minimax(board, 8, 'X').first, 42 - 8);
 }
 
 TEST(minimax, startpos_0)
@@ -362,4 +362,3 @@ TEST(minimax, DISABLED_startpos_max)
 	Board board;
 	EXPECT_EQ(minimax(board), std::make_pair(1, 3));
 }
- */

@@ -64,8 +64,21 @@ bool Board::loadpos(const char* pos)
 	if (cnto != cntx && cnto != cntx + 1)
 		return false;
 	this->turn = cnto > cntx;
-	if (len == 49 && (*pos == 'O' || *pos == 'o') && this->turn)
-		return false;
+	if (len == 49)
+	{
+		if (*pos == 'O' || *pos == 'o')
+		{
+			if (this->turn)
+				return false;
+		}
+		else if (*pos == 'X' || *pos == 'x')
+		{
+			if (!this->turn)
+				return false;
+		}
+		else
+			return false;
+	}
 	return true;
 }
 
