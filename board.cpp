@@ -172,6 +172,11 @@ inline bool Board::unmove()
 	return true;
 }
 
+inline bool Board::player() const
+{
+	return this->turn;
+}
+
 inline bool Board::won() const
 {
 	u64 board = this->turn ? this->board_o : this->board_x;

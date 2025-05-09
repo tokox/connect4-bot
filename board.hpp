@@ -15,6 +15,7 @@ public:
 	void reset();
 	inline bool move(u64 c);
 	inline bool unmove();
+	inline bool player() const;
 	inline bool won() const;
 	inline bool full() const;
 	inline bool empty() const;
@@ -30,7 +31,7 @@ public:
 	u64 board_o;
 	u64 board_x;
 	u32 count;
-	u8 turn;
+	bool turn;
 };
 
 #include "board.cpp"
